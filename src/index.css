@@ -1,16 +1,3 @@
-/* body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
-} */
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -203,7 +190,7 @@ img {
 }
 
 /*
-* Стили компонента Buton (Load more)
+* Стили компонента Button (Load more)
 */
 .Button {
   margin-left: 41%;
@@ -230,4 +217,12 @@ img {
 .Button:hover,
 .Button:focus {
   background-color: #303f9f;
+}
+
+/*
+* Стили компонента Loader
+*/
+.Loader {
+  margin-left: 45%;
+  margin-top: 200px;
 }

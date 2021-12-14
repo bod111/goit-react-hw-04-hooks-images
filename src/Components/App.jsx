@@ -50,7 +50,7 @@ class App extends Component {
         {!!hits.length && <Button onClick={this.onClick} />}
         {modal && <Modal onClose={this.onClose} modalImg={modal} />}
         {loading && (
-          <Loader type="TailSpin" color="#00BFFF" height={80} width={80} />
+          <Loader className="Loader" type="BallTriangle" color="#00BFFF" height={100} width={100} />
         )}
         <ToastContainer />
       </>
