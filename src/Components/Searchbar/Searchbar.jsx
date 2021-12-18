@@ -1,33 +1,31 @@
 import PropTypes from "prop-types";
-import React, { Component } from "react";
+import React, { useState } from "react";
 import { toast } from "react-toastify";
 
-class Searchbar extends Component {
-  state = {
-    name: "",
-  };
-  onSubmit  = (e) => {
+const Searchbar = ({onSubmitForm})=> {
+  const [name, setName] = useState("");
+  
+    
+  const onSubmit  = (e) => {
     e.preventDefault();
-    if (this.state.name.trim() === "") {
-      toast.error("Not found!");
-      return;
-    }
-    this.props.onSubmitForm(this.state.name);
+    if (!name.trim()) toast.error("Not found!");
+     
+    onSubmitForm(name);
   };
-  onChangeName = (e) => {
-    this.setState({ name: e.currentTarget.value.toLowerCase() });
+  const onChangeName = (e) => {
+   setName( e.currentTarget.value.toLowerCase() );
   };
-  render() {
+ 
     return (
       <header className="Searchbar">
-        <form onSubmit ={this.onSubmit } className="SearchForm">
+        <form onSubmit ={onSubmit } className="SearchForm">
           <button type="submit" className="SearchForm-button">
             <span className="SearchForm-button-label">Search</span>
           </button>
 
           <input
-            value={this.state.name}
-            onChange={this.onChangeName}
+            value={name}
+            onChange={onChangeName}
             className="SearchForm-input"
             type="text"
             autoComplete="off"
@@ -38,7 +36,7 @@ class Searchbar extends Component {
       </header>
     );
   }
-}
+
 Searchbar.propTypes = {
   onSubmitForm: PropTypes.func.isRequired,
 };

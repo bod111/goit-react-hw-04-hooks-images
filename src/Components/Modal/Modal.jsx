@@ -1,25 +1,28 @@
 import PropTypes from "prop-types";
-import React, { Component } from "react";
+import React, { useEffect } from "react";
 
-class Modal extends Component {
-  componentDidMount() {
-    window.addEventListener("keydown", this.onEscape);
-  }
-  componentWillUnmount() {
-    window.removeEventListener("keydown", this.onEscape);
-  }
-  onEscape = (e) => {
-    this.props.onClose(e);
+const Modal = ({ modalImg, onClose }) => {
+  
+  useEffect(() => {
+    window.addEventListener("keydown", onEscape);
+    return () => {
+      window.removeEventListener("keydown", onEscape);
+    }
+  
+  })
+  
+  const onEscape = (e) => {
+    onClose(e);
   };
-  render() {
+  
     return (
-      <div className="Overlay" onClick={this.props.onClose}>
+      <div className="Overlay" onClick={onClose}>
         <div className="Modal">
-          <img src={this.props.modalImg} alt="" />
+          <img src={modalImg} alt="" />
         </div>
       </div>
     );
-  }
+  
 }
 Modal.propTypes = {
   modalImg: PropTypes.string,

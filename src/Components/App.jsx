@@ -1,4 +1,4 @@
-import { Component } from "react"
+import { useState, useEffect } from "react"
 import Loader from "react-loader-spinner";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -8,47 +8,52 @@ import ImageGallery from "./ImageGallery/ImageGallery";
 import Searchbar from "./Searchbar/Searchbar";
 import Modal from "./Modal/Modal"
 
-class App extends Component {
-  state = {
-    hits: [],
-    loading: false,
-    name: "",
-    page: 1,
-    modal: "",
-  };
-   componentDidUpdate(prevProps, prevState) {
-    const { name, page } = this.state;
-    if (prevState.name !== name || prevState.page !== page) {
-      this.setState({ loading: true });
-      Request({ name, page })
-        .then((hits) =>
-          this.setState((prev) => ({ hits: [...prev.hits, ...hits.hits] }))
-        )
-        .finally(() => this.setState({ loading: false }));
-    }
-  }
-  onSubmitForm= (nameOnForm) => {
-    this.setState({ name: nameOnForm, page: 1, hits: [] });
-  };
-  onClick = () => {
-    this.setState({ page: this.state.page + 1 });
-  };
-  handleClick = (imageURL) => this.setState({ modal: imageURL });
+const App = () =>{
+  
+  const [hits, setHits] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [name, setName] = useState("");
+  const [page, setPage] = useState(1);
+  const [modal, setModal] = useState("");
 
-  onClose = (e) => {
-    (e.target === e.currentTarget || e.code === "Escape") &&
-      this.setState({ modal: "" });
+  useEffect(() => {
+    
+    name !== "" && setLoading(true);
+    
+     name !== "" && Request( {name, page} )
+        .then((hits) =>
+          setHits((prev) => [...prev, ...hits.hits] )
+        )
+        .finally(() => setLoading( false ));
+    
+  }, [name, page])
+
+  
+  const onSubmitForm = (nameOnForm) => {
+    setName(nameOnForm)
+    setPage(1)
+    setHits([])
   };
-  render() {
-    const { loading, hits, modal } = this.state;
+
+  const onClick = () => {
+    setPage((prev) => prev + 1);
+  };
+  const handleClick = (imageURL) => setModal( imageURL );
+
+  const onClose = (e) => {
+    (e.target === e.currentTarget || e.code === "Escape") &&
+      setModal( "" );
+  };
+  
+   
     return (
       <>
-        <Searchbar onSubmitForm={this.onSubmitForm} />
+        <Searchbar onSubmitForm={onSubmitForm} />
         {!!hits.length && (
-          <ImageGallery handleClick={this.handleClick} hits={hits} />
+          <ImageGallery handleClick={handleClick} hits={hits} />
         )}
-        {!!hits.length && <Button onClick={this.onClick} />}
-        {modal && <Modal onClose={this.onClose} modalImg={modal} />}
+        {!!hits.length && <Button onClick={onClick} />}
+        {modal && <Modal onClose={onClose} modalImg={modal} />}
         {loading && (
           <Loader className="Loader" type="BallTriangle" color="#00BFFF" height={100} width={100} />
         )}
@@ -56,6 +61,6 @@ class App extends Component {
       </>
     );
   }
-}
+
 
 export default App;
